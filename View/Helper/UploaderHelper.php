@@ -9,7 +9,7 @@ class UploaderHelper extends AppHelper{
 		$this->javascript(); 
         $html = $this->Form->input($field,array('label'=>false,'class'=>'wysiwyg','style'=>'width:100%;height:500px','row' => 160));
     	if(isset($this->request->data[$model]['id'])){
-			$html .= '<input type="hidden" id="explorer" value="'.$this->Html->url('/admin/media/medias/index/'.$model.'/'.$this->request->data['Formation']['id']).'/tinymce:1">';
+			$html .= '<input type="hidden" id="explorer" value="'.$this->Html->url('/admin/media/medias/index/'.$model.'/'.$this->request->data[$model]['id']).'/tinymce:1">';
     	}
 		return $html; 
 	}
