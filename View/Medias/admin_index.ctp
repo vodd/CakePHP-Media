@@ -1,5 +1,54 @@
 <div class="bloc">
     <div class="content">
+		<?php if(isset($_GET['src'])): ?>
+			<div class="expand item">
+				<table>
+					<tr>
+						<td style="width:140px"><img src="<?php echo $_GET['src']; ?>"></td>
+						<td>
+							<p><strong>Nom du fichier :</strong> <?php echo basename($_GET['src']); ?></p>
+						</td>
+					</tr>
+				</table>
+				<table>
+					<tr>
+						<td style="width:140px"><label>Titre</label></td>
+						<td><input class="title" name="title" type="text"></td>
+					</tr>
+					<tr>
+						<td style="width:140px"><label>Texte alternatif</label></td>
+						<td><input class="alt" name="alt" type="text" value="<?php echo $_GET['alt']; ?>"></td>
+					</tr>
+					<tr>
+						<td style="width:140px"><label>Cible du lien</label></td>
+						<td><input class="href" name="href" type="text"></td>
+					</tr>
+					<tr>
+						<td style="width:140px"><label>Alignement</label></td>
+						<td>
+							<input type="radio" name="align" class="align" id="align-none-up" value="none" <?php if($_GET['class'] == '') echo 'checked'; ?>>
+							<?php echo $this->Html->image('/media/img/align-none.png'); ?><label for="align-none-up">Aucun</label>
+
+							<input type="radio" name="align" class="align" id="align-left-up" value="left" <?php if($_GET['class'] == 'alignleft') echo 'checked'; ?>>
+							<?php echo $this->Html->image('/media/img/align-left.png'); ?><label for="align-left-up">Gauche</label>
+
+							<input type="radio" name="align" class="align" id="align-center-up" value="center" <?php if($_GET['class'] == 'aligncenter') echo 'checked'; ?>>
+							<?php echo $this->Html->image('/media/img/align-center.png'); ?><label for="align-center-up">Centre</label>
+
+							<input type="radio" name="align" class="align" id="align-right-up" value="right" <?php if($_GET['class'] == 'alignright') echo 'checked'; ?>>
+							<?php echo $this->Html->image('/media/img/align-right.png'); ?><label for="align-right-up">Droite</label>
+						</td>
+					</tr>
+					<tr>
+						<td style="width:140px"> &nbsp; </td>
+						<td>
+							<p><a href="" class="submit">Insérer dans l'article</a>
+						</td>
+					</tr>
+					<input type="hidden" name="file" value="<?php echo $_GET['src']; ?>" class="file">
+				</table>
+			</div>
+		<?php endif; ?>
 		<div id="plupload">
 		    <div id="droparea" href="#">
 		    	<p>Déplacer les fichiers ici</p>
@@ -31,7 +80,7 @@
 <?php $this->Html->script('/media/js/plupload.js',array('inline'=>false)); ?>
 <?php $this->Html->script('/media/js/plupload.html5.js',array('inline'=>false)); ?>
 <?php $this->Html->script('/media/js/plupload.flash.js',array('inline'=>false)); ?>
-
+<?php $this->Html->script('/media/js/tiny_mce_popup.js',array('inline'=>false)); ?>
 <?php $this->Html->scriptStart(array('inline'=>false)); ?>
 
 jQuery(function(){
@@ -46,14 +95,15 @@ jQuery(function(){
 			$('#MediaAdminIndexForm').ajaxSubmit(); 
 		}
 	});
-
+	
+	var theFrame = $("#medias<?php echo $ref; ?>", parent.document.body);
 	var uploader = new plupload.Uploader({
 		runtimes : 'html5,flash',
 		container: 'plupload',		
 		browse_button : 'browse',
 		max_file_size : '10mb',
 		flash_swf_url : '<?php echo Router::url('/media/js/plupload/plupload.flash.swf'); ?>',
-		url : '<?php echo Router::url(array('controller'=>'medias','action'=>'upload',$ref,$ref_id)); ?>',
+		url : '<?php echo Router::url(array('controller'=>'medias','action'=>'upload',$ref,$ref_id,'tinymce'=>$tinymce)); ?>',
 		filters : [
 			{title : "Image files", extensions : "jpg,gif,png"},
 		],
@@ -98,23 +148,58 @@ jQuery(function(){
 				elem.parents('.item').slideUp();
 			});
 		}
+		theFrame.animate({ height:theFrame.height() - 40 }); 
 	});
 
 	$('a.toggle').live('click',function(e){
 		e.preventDefault();
 		var a = $(this);
+		var height = a.parent().parent().find('.expand').outerHeight();
 		if(a.text() == 'Afficher'){
 			a.text('Cacher');
 			a.parent().parent().animate({
-				height : 40 + a.parent().parent().find('.expand').outerHeight()
+				height : 40 + height
+			});
+			theFrame.animate({
+				height : theFrame.height() + height
 			});
 		}else{
 			a.text('Afficher');
 			a.parent().parent().animate({
 				height : 40
 			});
+			theFrame.animate({
+				height : theFrame.height() - height
+			});
 		}
+		resizeIframe();
 	});
+
+	theFrame.height($(document.body).height() + 50);
+
+	<?php if($tinymce): ?>
+	$('a.submit').live('click',insertContent);
+
+	function insertContent(){
+		var win = window.dialogArugments || opener || parent || top;
+		var item = $(this).parents('.item');
+		var html = '<img src="'+item.find('.file').val()+'"';
+		if( item.find('.alt').val() != '' ){
+			html += ' alt="'+item.find('.alt').val()+'"';
+		}
+		if( item.find('.align:checked').val() != 'none' ){
+			html += ' class="align'+item.find('.align:checked').val()+'"';
+		}
+		html += '>';
+		if( item.find('.href').val() != '' ){
+			html = '<a href="'+item.find('.href').val()+'" title="'+item.find('.title').val()+'">'+html+'</a>';
+		}
+    	win.send_to_editor(html);
+    	tinyMCEPopup.close();
+		return false; 
+	}
+	<?php endif; ?>
+
 
 });
 

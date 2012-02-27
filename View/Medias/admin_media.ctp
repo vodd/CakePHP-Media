@@ -4,8 +4,10 @@
 	<div class="visu"><?php echo $this->Html->image($v['file']) ?></div>
 	<?php echo basename($v['file']); ?>
 	<div class="actions">
-		<?php echo $this->Html->link("Supprimer",array('action'=>'delete',$v['id']),array('class'=>'del')); ?> - 
-		<a href="#" class="toggle">Afficher</a>
+		<?php echo $this->Html->link("Supprimer",array('action'=>'delete',$v['id']),array('class'=>'del')); ?> 
+		<?php if ($tinymce): ?>
+			- <a href="#" class="toggle">Afficher</a>
+		<?php endif ?>
 	</div>
 	<div class="expand">
 		<table>
@@ -20,23 +22,30 @@
 		<table>
 			<tr>
 				<td style="width:140px"><label>Titre</label></td>
-				<td><input id="title" name="title" type="text"></td>
+				<td><input class="title" name="title" type="text"></td>
 			</tr>
 			<tr>
 				<td style="width:140px"><label>Texte alternatif</label></td>
-				<td><input id="alt" name="alt" type="text"></td>
+				<td><input class="alt" name="alt" type="text"></td>
 			</tr>
 			<tr>
 				<td style="width:140px"><label>Cible du lien</label></td>
-				<td><input id="href" name="href" type="text"></td>
+				<td><input class="href" name="href" type="text"></td>
 			</tr>
 			<tr>
 				<td style="width:140px"><label>Alignement</label></td>
 				<td>
-					<input type="radio" name="align" id="align-none"><?php echo $this->Html->image('/media/img/align-none.png'); ?><label for="align-none">Aucun</label>
-					<input type="radio" name="align" id="align-left"><?php echo $this->Html->image('/media/img/align-left.png'); ?><label for="align-left">Gauche</label>
-					<input type="radio" name="align" id="align-center"><?php echo $this->Html->image('/media/img/align-center.png'); ?><label for="align-center">Centre</label>
-					<input type="radio" name="align" id="align-right"><?php echo $this->Html->image('/media/img/align-right.png'); ?><label for="align-right">Droite</label>
+					<input type="radio" name="align-<?php echo $v['id']; ?>" class="align" id="align-none-<?php echo $v['id']; ?>" value="none" checked>
+					<?php echo $this->Html->image('/media/img/align-none.png'); ?><label for="align-none-<?php echo $v['id']; ?>">Aucun</label>
+
+					<input type="radio" name="align-<?php echo $v['id']; ?>" class="align" id="align-left-<?php echo $v['id']; ?>" value="left">
+					<?php echo $this->Html->image('/media/img/align-left.png'); ?><label for="align-left-<?php echo $v['id']; ?>">Gauche</label>
+
+					<input type="radio" name="align-<?php echo $v['id']; ?>" class="align" id="align-center-<?php echo $v['id']; ?>" value="center">
+					<?php echo $this->Html->image('/media/img/align-center.png'); ?><label for="align-center-<?php echo $v['id']; ?>">Centre</label>
+
+					<input type="radio" name="align-<?php echo $v['id']; ?>" class="align" id="align-right-<?php echo $v['id']; ?>" value="right">
+					<?php echo $this->Html->image('/media/img/align-right.png'); ?><label for="align-right-<?php echo $v['id']; ?>">Droite</label>
 				</td>
 			</tr>
 			<tr>
@@ -45,6 +54,7 @@
 					<p><a href="" class="submit">Insérer dans l'article</a> <?php echo $this->Html->link("Supprimer",array('action'=>'delete',$v['id']),array('class'=>'del')); ?></p>
 				</td>
 			</tr>
+			<input type="hidden" name="file" value="<?php echo $this->Html->url('/img/'.$v['file']); ?>" class="file">
 		</table>
 	</div>
 </div>

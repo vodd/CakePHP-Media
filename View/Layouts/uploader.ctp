@@ -18,12 +18,6 @@
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
         <?php echo $this->fetch('script'); ?>
 		<script type="text/javascript">
-		jQuery(function($){
-			
-			var theFrame = $("#autoHeight<?php echo $this->request->controller; ?>", parent.document.body);
-			theFrame.height($(document.body).height() + 50);
-			
-		});
 		</script>
 	
     </body>

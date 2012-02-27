@@ -16,8 +16,8 @@ body{
   font-size: 12px;
   font-family: Arial, Helvetica, Sans-serif;
 }
-a{ color: #21759B; }
-a:hover{ color:#db4e21; }
+.item a,.item a:link, .item a:visited{ color: #21759B; }
+.item a:hover{ color:#db4e21; }
 
 #droparea{
 	display: block;
@@ -98,29 +98,29 @@ strong,label{color:#333; font-weight: bold; }
   right:10px;
 }
 #filelist .del{
-  color:#FF0000;
+  color:#FF0000!important;
 }
 #filelist .visu{
   float:left; width:60px; overflow: hidden; margin-right: 10px;
 }
-#filelist .expand{
+.expand{
   padding: 10px;
   line-height: 18px;
   border-top:solid 1px #dfdfdf;
 }
-#filelist .expand table{
+.expand table{
   padding: 0; margin: 0; width: 100%;
 }
-#filelist .expand img{
+.expand img{
   max-width: 128px;
   max-height: 128px;
 }
-#filelist .expand input[type=text]{
+.expand input[type=text]{
   border: 1px solid #DFDFDF;
   width: 100%; padding: 3px 0;
 }
 
-#filelist .expand a.submit{
+.expand a.submit{
   color: #464646;
   border:solid 1px #BBB;
   background: #F2F2F2;
@@ -139,7 +139,7 @@ strong,label{color:#333; font-weight: bold; }
   box-sizing: content-box;
   margin-right: 10px;
 }
-#filelist .expand a.submit:hover{
+.expand a.submit:hover{
   color:black; border-color: #666;
 }
 

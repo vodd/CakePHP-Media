@@ -13,14 +13,20 @@ class MediasController extends AppController{
     * Permet de cropper les images
     **/
     function crop(){ 
-        extract($_GET);
-        $images = glob(IMAGES.$org.'.*');
+        if(!isset( $this->request->params['file'])){
+            die(); 
+        }
+        extract($this->request->params);
+        $file = str_replace('.','',$file); 
+        $size = explode('x',$format); 
+        $images = glob(IMAGES.$file.'.*');
+        $dest = IMAGES.$file.'_'.$format.'.jpg';
         if(empty($images)){
             die(); 
         }else{
             $image = current($images); 
         }
-        if($this->Img->redim($image,$dest,$w,$h)){
+        if($this->Img->redim($image,$dest,$size[0],$size[1])){
             header("Content-type: image/jpg");
             echo file_get_contents($dest);
             exit();
@@ -37,6 +43,7 @@ class MediasController extends AppController{
             'conditions' => array('ref_id' => $ref_id,'ref' => $ref)
         )); 
         $d['medias'] = $medias;
+        $d['tinymce']= isset($this->request->params['named']['tinymce']); 
         $this->set($d);
     }
 
@@ -50,6 +57,7 @@ class MediasController extends AppController{
             'file'   => $_FILES['file']
         ));
         $d['v'] = current($this->Media->read());
+        $d['tinymce']= isset($this->request->params['named']['tinymce']); 
         $this->set($d);
         $this->layout = false; 
         $render = $this->render('admin_media'); 
