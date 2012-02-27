@@ -17,20 +17,25 @@ You can create theses tables easily using the CakePHP Console :
 The behavior
 -------------------------------------------------------
 
-Moreover the behavior add a "terms" virtual field within your find results (if you properly set the recursive) and a "Taxonomy" index containing all
-your terms indexed by their type.
-If you want to create checkboxes for editing a specifing Taxonomy
+To bind the Media manager on your model use : 
+
+	public $actsAs = array('Media.Media'); 
+
+You can configure the path for the media using 
 	
-	$this->Form->input('Model.terms.type',array('type'=>'select','multiple'=>'checkbox','options'=>$options));
+	public $uploads = "uploads/%y/%m/%f"
 
-For instance if you want to edit the pet of an User
+%y  = Year
+%m  = Month
+%f  = Filename
+%id = ID
+%mid= ID/1000
 
-	$this->Form->input('Model.terms.pet',array('type'=>'select','multiple'=>'checkbox','options'=>$pets)))
+If you want to use a thumb for your content you can save a file called "thumb". 
 
-If you want to find the list of some terms
+	$this->Form->input('thumb',array('type'=>file));
 
-	$this->Model->listTerms('pet','category','tag',....);
-
+The thumb will be automatically uploaded and saved in the media table, and the media id is saved in the "media_id" field of the Model.
 
 The Helper
 -------------------------------------------------------
