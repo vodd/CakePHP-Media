@@ -9,7 +9,8 @@ class MediaBehavior extends ModelBehavior{
 		$model->hasMany['Media'] = array(
 			'className'  => 'Media.Media',
 			'foreignKey' => 'ref_id',
-			'conditions' => 'ref = "'.$model->name.'"'
+			'conditions' => 'ref = "'.$model->name.'"',
+			'dependent'  => true
 		);
 	}
 
