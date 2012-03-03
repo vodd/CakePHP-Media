@@ -1,2 +1,2 @@
 <?php
-Router::connect('/media/medias/*',array('action'=>'pages','action'=>'index','plugin'=>false)); 
+Router::connect('/media/medias/*',array('controller'=>'medias','action'=>'blocked','plugin'=>'media')); 

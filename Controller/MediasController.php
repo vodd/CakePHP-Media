@@ -9,6 +9,10 @@ class MediasController extends AppController{
         $this->layout = 'uploader';
     }
 
+    function blocked(){
+        throw new NotFoundException(); 
+    }
+
     /**
     * Permet de cropper les images
     **/
