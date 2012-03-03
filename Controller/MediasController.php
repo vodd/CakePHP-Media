@@ -33,6 +33,25 @@ class MediasController extends AppController{
         }
     }
 
+    function grayscale(){
+        if(!isset( $this->request->params['file'])){
+            die(); 
+        }
+        extract($this->request->params);
+        $file = str_replace('.','',$file); 
+        $dest = IMAGES.$file.'_bw.jpg';
+        $file = IMAGES.$file.'.jpg';
+        if(file_exists($file)){
+            $img = imagecreatefromjpeg($file);
+            imagefilter($img,IMG_FILTER_GRAYSCALE);
+            imagejpeg($img,$dest,90);
+            header("Content-type: image/jpg");
+            echo file_get_contents($dest);
+            exit();
+        }
+        die(); 
+    }
+
     /**
     * Liste les médias
     **/
