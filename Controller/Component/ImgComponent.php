@@ -3,16 +3,14 @@ class ImgComponent extends Component  {
 	
 	function redim($img,$dest,$largeur=0,$hauteur=0){
 		$dimension=getimagesize($img);
-                $ratio = $dimension[0] / $dimension[1];
-                // Création des miniatures
-                if($largeur==0 && $hauteur==0){ $largeur = $dimension[0]; $hauteur = $dimension[1]; }
+        $ratio = $dimension[0] / $dimension[1];
+        // Création des miniatures
+        if($largeur==0 && $hauteur==0){ $largeur = $dimension[0]; $hauteur = $dimension[1]; }
 		else if($hauteur==0){ $hauteur = round($largeur / $ratio); }
-                else if($largeur==0){ $largeur = round($hauteur * $ratio); }
-
+        else if($largeur==0){ $largeur = round($hauteur * $ratio); }
 		if($dimension[0]>($largeur/$hauteur)*$dimension[1] ){ $dimY=$hauteur; $dimX=round($hauteur*$dimension[0]/$dimension[1]);}
 		if($dimension[0]<($largeur/$hauteur)*$dimension[1]){ $dimX=$largeur; $dimY=round($largeur*$dimension[1]/$dimension[0]);}
 		if($dimension[0]==($largeur/$hauteur)*$dimension[1]){ $dimX=$largeur; $dimY=$hauteur;}
-		
         if(Configure::read('Config.imagemagick')){
             $cmd = '/usr/bin/convert -resize '.$dimX.'x'.$dimY.' "'.$img.'" "'.$dest.'"';
             shell_exec($cmd);
@@ -24,7 +22,6 @@ class ImgComponent extends Component  {
 
             return true;
         }
-
         if($dimension[0]>($largeur/$hauteur)*$dimension[1] ){ $dimY=$hauteur; $dimX=round($hauteur*$dimension[0]/$dimension[1]); $decalX=($dimX-$largeur)/2; $decalY=0;}
         if($dimension[0]<($largeur/$hauteur)*$dimension[1]){ $dimX=$largeur; $dimY=round($largeur*$dimension[1]/$dimension[0]); $decalY=($dimY-$hauteur)/2; $decalX=0;}
         if($dimension[0]==($largeur/$hauteur)*$dimension[1]){ $dimX=$largeur; $dimY=$hauteur; $decalX=0; $decalY=0;}

@@ -80,7 +80,9 @@
 <?php $this->Html->script('/media/js/plupload.js',array('inline'=>false)); ?>
 <?php $this->Html->script('/media/js/plupload.html5.js',array('inline'=>false)); ?>
 <?php $this->Html->script('/media/js/plupload.flash.js',array('inline'=>false)); ?>
-<?php $this->Html->script('/media/js/tiny_mce_popup.js',array('inline'=>false)); ?>
+<?php if($tinymce): ?>
+	<?php $this->Html->script('/media/js/tiny_mce_popup.js',array('inline'=>false)); ?>
+<?php endif; ?>
 <?php $this->Html->scriptStart(array('inline'=>false)); ?>
 
 jQuery(function(){
@@ -121,6 +123,8 @@ jQuery(function(){
 		theFrame.animate({ height:theFrame.height() - 40 }); 
 		uploader.start();
 		$('#droparea').removeClass('dropping'); 
+		theFrame.css({ height:$('body').height() + 40 }); 
+
 	});
 
 	uploader.bind('UploadProgress', function(up, file) {
@@ -173,7 +177,6 @@ jQuery(function(){
 				height : theFrame.height() - height
 			});
 		}
-		resizeIframe();
 	});
 
 	theFrame.height($(document.body).height() + 50);

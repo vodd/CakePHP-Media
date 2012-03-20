@@ -21,6 +21,6 @@ class UploaderHelper extends AppHelper{
 	}
 
 	public function iframe($ref,$ref_id){
-		return '<iframe src="'.Router::url('/').'admin/media/medias/index/'.$ref.'/'.$ref_id.'" style="width:100%;" id="medias'.$ref.'">';
+		return '<iframe src="'.Router::url('/').'admin/media/medias/index/'.$ref.'/'.$ref_id.'" style="width:100%;" id="medias'.$ref.'"></iframe>';
 	}
 }
