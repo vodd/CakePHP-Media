@@ -41,7 +41,7 @@ class MediaBehavior extends ModelBehavior{
 	public function afterFind($model,$data){
 		foreach($data as $k=>$v){
 			// Thumbnail
-			if(!empty($v['Thumb'])){
+			if(isset($v['Thumb']['file'])){
 				$v[$model->name]['thumb'] = $v['Thumb']['file'];
 				$v[$model->name]['thumbf'] = $v['Thumb']['filef'];
 			}
