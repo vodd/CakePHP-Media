@@ -42,7 +42,6 @@ class MediaBehavior extends ModelBehavior{
 		foreach($data as $k=>$v){
 			// Thumbnail
 			if(!empty($v['Thumb'])){
-				$media_id = $v[$model->name]['media_id'];
 				$v[$model->name]['thumb'] = $v['Thumb']['file'];
 				$v[$model->name]['thumbf'] = $v['Thumb']['filef'];
 			}
