@@ -14,7 +14,8 @@ class MediaBehavior extends ModelBehavior{
 		);
 		$model->belongsTo['Thumb'] = array(
 			'className'  => 'Media.Media',
-			'foreignKey' => 'media_id'
+			'foreignKey' => 'media_id',
+			'counterCache'=> false
 		);
 	}
 
