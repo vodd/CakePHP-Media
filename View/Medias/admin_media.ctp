@@ -1,9 +1,12 @@
 <?php $sizes = getimagesize(IMAGES.$v['file']);  ?>
-<div class="item">
+<div class="item <?php if($thumbID && $v['id'] === $thumbID): ?>thumbnail<?php endif; ?>">
 	<input type="hidden" value="<?php echo $v['position']; ?>" name="data[Media][<?php echo $v['id']; ?>]">
 	<div class="visu"><?php echo $this->Html->image($v['file']) ?></div>
 	<?php echo basename($v['file']); ?>
 	<div class="actions">
+		<?php if($thumbID !== false && $v['id'] !== $thumbID): ?>
+			<?php echo $this->Html->link("Mettre en image à la une",array('action'=>'thumb',$v['id'])); ?> -
+		<?php endif; ?>
 		<?php echo $this->Html->link("Supprimer",array('action'=>'delete',$v['id']),array('class'=>'del')); ?> 
 		<?php if ($tinymce): ?>
 			- <a href="#" class="toggle">Afficher</a>

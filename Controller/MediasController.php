@@ -6,6 +6,10 @@ class MediasController extends AppController{
 
     function beforeFilter(){
         parent::beforeFilter(); 
+        if(in_array($this->request->action, array('admin_upload','admin_index')) && array_key_exists('Security', $this->components)){
+            $this->Security->validatePost = false;
+            $this->Security->csrfCheck = false;
+        }
         $this->layout = 'uploader';
     }
 
@@ -60,6 +64,7 @@ class MediasController extends AppController{
     * Liste les médias
     **/
     function admin_index($ref,$ref_id){
+        $this->loadModel($ref); 
         $d['ref'] = $ref;
         $d['ref_id'] = $ref_id;
         $medias = $this->Media->find('all',array(
@@ -67,6 +72,11 @@ class MediasController extends AppController{
         )); 
         $d['medias'] = $medias;
         $d['tinymce']= isset($this->request->params['named']['tinymce']); 
+        $d['thumbID'] = false;
+        if($this->$ref->hasField('media_id')){
+            $this->$ref->id = $ref_id; 
+            $d['thumbID'] = $this->$ref->field('media_id');
+        }
         $this->set($d);
     }
 
@@ -79,8 +89,10 @@ class MediasController extends AppController{
             'ref_id' => $ref_id,
             'file'   => $_FILES['file']
         ));
+        $this->loadModel($ref); 
         $d['v'] = current($this->Media->read());
         $d['tinymce']= isset($this->request->params['named']['tinymce']); 
+        $d['thumbID'] = $this->$ref->hasField('media_id');
         $this->set($d);
         $this->layout = false; 
         $render = $this->render('admin_media'); 
@@ -95,8 +107,20 @@ class MediasController extends AppController{
         die(); 
     }
 
+    /**
+    * Met l'image à la une
+    **/
+    function admin_thumb($id){
+        $this->Media->id = $id; 
+        $ref = $this->Media->field('ref');
+        $ref_id = $this->Media->field('ref_id');
+        $this->loadModel($ref);
+        $this->$ref->id = $ref_id; 
+        $this->$ref->saveField('media_id',$id);
+        $this->redirect($this->referer());
+    }
+
     function admin_order(){
-        print_r($this->request->data); 
         if(!empty($this->request->data['Media'])){
             foreach($this->request->data['Media'] as $k=>$v){
                 $this->Media->id = $k;

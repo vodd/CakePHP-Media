@@ -18,7 +18,6 @@ body{
 }
 .item a,.item a:link, .item a:visited{ color: #21759B; }
 .item a:hover{ color:#db4e21; }
-
 #droparea{
 	display: block;
 	border: 4px dashed #DDD;
@@ -92,6 +91,7 @@ strong,label{color:#333; font-weight: bold; }
 	line-height: 40px;
   position: relative;
 }
+#filelist .item.thumbnail{ background-color: #dde8ff;}
 #filelist .actions{
   position: absolute;
   top:0px;
