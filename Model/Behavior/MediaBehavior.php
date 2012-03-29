@@ -12,11 +12,13 @@ class MediaBehavior extends ModelBehavior{
 			'conditions' => 'ref = "'.$model->name.'"',
 			'dependent'  => true
 		);
-		$model->belongsTo['Thumb'] = array(
-			'className'  => 'Media.Media',
-			'foreignKey' => 'media_id',
-			'counterCache'=> false
-		);
+		if($model->hasField('media_id')){
+			$model->belongsTo['Thumb'] = array(
+				'className'  => 'Media.Media',
+				'foreignKey' => 'media_id',
+				'counterCache'=> false
+			);
+		}
 	}
 
 	public function afterSave($model){
