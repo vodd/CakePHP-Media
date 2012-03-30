@@ -6,7 +6,7 @@ class MediasController extends AppController{
 
     function beforeFilter(){
         parent::beforeFilter(); 
-        if(in_array($this->request->action, array('admin_upload','admin_index')) && array_key_exists('Security', $this->components)){
+        if(in_array($this->request->action, array('admin_upload','admin_index','admin_delete')) && array_key_exists('Security', $this->components)){
             $this->Security->validatePost = false;
             $this->Security->csrfCheck = false;
         }
